@@ -2,13 +2,12 @@ package ru.smak.graphics.windows
 
 import ru.smak.graphics.components.GraphicsPanel
 import ru.smak.graphics.convertation.CartesianScreenPlane
-import ru.smak.graphics.painting.CartesianPainter
-import ru.smak.graphics.painting.GridPainter
-import ru.smak.graphics.painting.PanelPointer
+import ru.smak.graphics.painting.*
 import java.awt.Dimension
 import javax.swing.GroupLayout
 import javax.swing.JFrame
 import javax.swing.WindowConstants
+import kotlin.math.abs
 
 class MainWindow : JFrame("Экзамен: КТ, 3 курс") {
 
@@ -21,6 +20,7 @@ class MainWindow : JFrame("Экзамен: КТ, 3 курс") {
     init {
         defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         minimumSize = Dimension(480, 500)
+
         val gl = GroupLayout(contentPane)
         layout = gl
         gl.setVerticalGroup(
@@ -46,6 +46,21 @@ class MainWindow : JFrame("Экзамен: КТ, 3 курс") {
         mainPanel.addPainter(cartesianP)
         val gridP = GridPainter(plane)
         mainPanel.addPainter(gridP, 0)
+
+
+        ////////////////////////////////////////////
+
+        val fun1 = { x:Double -> abs(2*x-x*x) }
+        val funOne = GraphicsPainter(plane,fun1)
+        mainPanel.addPainter(funOne,0)
+
+        val funX = {t:Double->(4-t*t)/(1+t*t*t)}
+        val funY = {t: Double -> t*t/(1+t*t*t)}
+        val funTwo = ParamGraphicsPainter(plane, funX, funY,0.0,6.28)
+        mainPanel.addPainter(funTwo,0)
+
+
+        ////////////////////////////////////////////
         /**
          * Добавление указателя в позицию мыши
          */
